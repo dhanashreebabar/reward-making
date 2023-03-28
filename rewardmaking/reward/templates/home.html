@@ -1,0 +1,131 @@
+
+
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<style>
+  a {
+  color: #101111;
+}
+a:visited {
+  color: rgb(8, 8, 8);
+}
+ a:hover, a:active, a:focus {
+  color:rgb(102, 11, 11);
+}
+nav li a {
+  background-color: #333;
+}
+
+</style>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand">{{user_object.username}} </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" >Tasks: 4 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link">Account Balance: {{account_balance}}0</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link disabled"  >Status :{{user_profile.status}}</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">More</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">Add Money</a>
+                    <a class="dropdown-item" href="#">Send Money To Bank</a>
+                    <a class="dropdown-item" href="#">Get More Task</a>
+                    <a class="dropdown-item" href="#">Help</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <a class="nav-link active" href="{% url 'logout' %}" >LogOut</a>
+
+    </div>
+</nav>
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" >
+        <div class="container">
+            <h1 class="display-3">Hello, Welcome!</h1>
+            <p>This is a simple plaform where you can earn by completing simple task.Come on lets make some money.  </p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Task-1</h2>
+                <p>Subscribe to the youtube channel through the link to complete first easy  task. </p>
+                <p><a class="btn btn-secondary" href="{{task_links.youtubelink}} " role="button">Subscribe</a></p>
+                <form  method="POST">
+                  {% csrf_token %}
+                  <button name="task1" type="submit" value="True">Done</button>
+                  </form>
+            </div>
+            <div class="col-md-4">
+                <h2>Task-2</h2>
+                <p>Watch the full video by the link provided below and go another step forward to earn the money </p>
+                <p><a class="btn btn-secondary" href="{{task_links.video}} "role="button">Watch </a></p>
+                <form  method="POST">
+                  {% csrf_token %}
+                  <button name="task2" type="submit" value="True">Done</button>
+                  </form>
+            </div>
+            <div class="col-md-4">
+                <h2>Task-3 </h2>
+                <p>Follow the instagram account to get a follow back and increase your followers.</p>
+                <p><a class="btn btn-secondary" href="{{task_links.ig}} " role="button">Follow</a></p>
+                <form  method="POST">
+                  {% csrf_token %}
+                  <button name="task3" type="submit" value="True">Done</button>
+                  </form>
+            </div>
+            <div class="col-md-4">
+              <h2>Task-4 </h2>
+              <p>Share this to your friends and family give them a chance to earn and you did it by doing the last task.</p>
+              <p><a class="btn btn-secondary" href="{{task_links.share}} "role="button">Share</a></p>
+              <form  method="POST">
+                {% csrf_token %}
+                <button name="task4" type="submit" value="True">Done</button>
+                </form>
+          </div>
+        </div>
+        <div class="tacbox">
+          <br><br><p>Have you completed all tasks?</p>
+          <div>
+           
+            <form  method="POST">
+              {% csrf_token %}
+              <button name="task_complete" type="submit" value="yes"style="background-color: #ffc0cb; border: #ffc0cb;">Completed all tasks</button>
+              </form>
+        </div>
+        </div>
+        
+        <hr>
+        
+    </div> <!-- /container -->
+
+</main>
+
+<footer class="container">
+    <p>&copy; Copyright Reward making</p>
+</footer>
+{% endblock %}
