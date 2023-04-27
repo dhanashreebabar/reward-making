@@ -39,16 +39,16 @@ def HomePage(request):
     
            
     account_balance=user_profile.account_balance
-    if task_links.task1 =='True':
+    if task_links.task1 :
         account_balance -=20
-    if task_links.task2 =='True':
+    if task_links.task2 ==True:
         account_balance -=20
-    if task_links.task3 =='True':
+    if task_links.task3 ==True:
         account_balance -=20
-    if task_links.task4 =='True':
+    if task_links.task4 ==True:
         account_balance -=20
-    if user_profile.task_complete=='yes':
-        account_balance +=200
+    # if user_profile.task_complete==True:
+    #      account_balance +=200
 
     status = TaskLinks.objects.filter(
         Q(user=user_object)&
@@ -59,9 +59,9 @@ def HomePage(request):
     
         )   
     if status:
-        user_profile.status = 'Complete'
-        if user_profile.task_complete=='yes':
-            account_balance +=200
+        user_profile.status = 'Complete '
+        account_balance +=200
+        
     context = {
         'user_object': user_object,
         'user_profile':user_profile,
@@ -127,6 +127,31 @@ def LoginPage(request):
 
     else:
         return render(request, 'login.html')
+
+
+@login_required(login_url='signin')
+def search(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Task.objects.get(user=user_object)
+    task_links = TaskLinks.objects.get(user=user_object)
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        username_object = User.objects.filter(username__icontains=username)
+
+        username_profile = []
+        username_profile_list = []
+
+        for users in username_object:
+            username_profile.append(users.id)
+
+        for ids in username_profile:
+            profile_lists = Profile.objects.filter(id_user=ids)
+            username_profile_list.append(profile_lists)
+        
+        username_profile_list = list(chain(*username_profile_list))
+    return render(request, 'search.html', {'user_profile': user_profile, 'username_profile_list': username_profile_list})
+
 def LogoutPage(request):
     logout(request)
     return redirect('login')
